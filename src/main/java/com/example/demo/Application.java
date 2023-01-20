@@ -30,6 +30,7 @@ public class Application {
                     "email1"
             );
             studentRepository.saveAll(Arrays.asList(student, student1));
+            System.out.println(studentRepository.findStudentByEmail("email1"));
         };
     }
 }
