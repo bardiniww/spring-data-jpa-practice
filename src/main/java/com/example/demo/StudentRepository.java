@@ -39,5 +39,6 @@ interface StudentRepository extends JpaRepository<Student, Long> {
     @Transactional
     @Modifying //use with delete/update queries (requires TRANSACTIONAL)
     @Query("DELETE FROM Student s WHERE s.id = ?1")
+    //returns affected rows count
     int deleteStudentById(Long id);
 }

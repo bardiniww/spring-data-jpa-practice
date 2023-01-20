@@ -31,6 +31,8 @@ public class Application {
             );
             studentRepository.saveAll(Arrays.asList(student, student1));
             System.out.println(studentRepository.findStudentByEmail("email1"));
+
+            System.out.println(studentRepository.deleteStudentById(2L));
         };
     }
 }
