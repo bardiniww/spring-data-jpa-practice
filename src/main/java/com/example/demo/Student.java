@@ -24,7 +24,7 @@ public class Student {
             name = "id",
             updatable = false
     )
-    private long id;
+    private Long id;
 
     @Column(
             name = "first_name",
@@ -52,4 +52,13 @@ public class Student {
             columnDefinition = "TEXT"
     )
     private String email;
+
+    public Student(String firstName, String lastName, int age, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.email = email;
+    }
+
+    public Student() {}
 }
