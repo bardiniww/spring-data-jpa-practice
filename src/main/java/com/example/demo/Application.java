@@ -5,6 +5,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.Arrays;
+
 @SpringBootApplication
 public class Application {
 
@@ -15,7 +17,6 @@ public class Application {
     @Bean
     CommandLineRunner commandLineRunner(StudentRepository studentRepository) {
         return args -> {
-            Student student2 = new Student();
             Student student = new Student(
                     "firstName",
                     "lastName",
@@ -28,8 +29,7 @@ public class Application {
                     14,
                     "email1"
             );
-            studentRepository.save(student);
-            studentRepository.save(student1);
+            studentRepository.saveAll(Arrays.asList(student, student1));
         };
     }
 }
