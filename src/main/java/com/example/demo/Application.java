@@ -1,11 +1,15 @@
 package com.example.demo;
 
+import com.github.javafaker.Faker;
+import com.github.javafaker.Name;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-
-import java.util.Arrays;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 @SpringBootApplication
 public class Application {
@@ -17,22 +21,35 @@ public class Application {
     @Bean
     CommandLineRunner commandLineRunner(StudentRepository studentRepository) {
         return args -> {
-            Student student = new Student(
-                    "firstName",
-                    "lastName",
-                    13,
-                    "email"
-            );
-            Student student1 = new Student(
-                    "firstName1",
-                    "lastName1",
-                    14,
-                    "email1"
-            );
-            studentRepository.saveAll(Arrays.asList(student, student1));
-            System.out.println(studentRepository.findStudentByEmail("email1"));
-
-            System.out.println(studentRepository.deleteStudentById(2L));
+            generateRandomStudents(studentRepository);
+//            findAllStudentsWithSort(studentRepository);
+            PageRequest pageRequest = PageRequest.of(
+                    0,
+                    10,
+                    Sort.by(Sort.Direction.ASC, "firstName"));
+            Page<Student> page = studentRepository.findAll(pageRequest);
+            System.out.println(page);
+//            page.forEach(student -> System.out.println(student.getFirstName()));
         };
+    }
+
+    private static void findAllStudentsWithSort(StudentRepository studentRepository) {
+        Sort sort = Sort.by(Sort.Direction.ASC, "firstName");
+        studentRepository.findAll(sort).forEach(st -> System.out.println(st.getFirstName()));
+    }
+
+    private void generateRandomStudents(StudentRepository studentRepository) {
+        Faker faker = new Faker();
+        for (int i = 0; i < 20; i++) {
+            Name name = faker.name();
+            studentRepository.save(
+                    new Student(
+                            name.firstName(),
+                            name.lastName(),
+                            faker.number().numberBetween(17, 89),
+                            name.username() + "@email.com"
+                    )
+            );
+        }
     }
 }

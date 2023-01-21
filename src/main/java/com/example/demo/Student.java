@@ -62,6 +62,26 @@ public class Student {
 
     public Student() {}
 
+    public Long getId() {
+        return id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
     @Override
     public String toString() {
         return "Student{" +
