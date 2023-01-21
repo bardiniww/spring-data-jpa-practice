@@ -1,6 +1,8 @@
 package com.example.demo;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity(name = "Student")
 @Table(
@@ -65,6 +67,19 @@ public class Student {
     )
     private StudentIdCard studentIdCard;
 
+    @OneToMany(
+            mappedBy = "student",
+            orphanRemoval = true,
+            // with these cascade types, when you add or remove a book from the Java object,
+            // it will also be added/removed from 'book' table
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+            // in case if it contains a lots of data, it should be lazy (as default) for OneToMany & ManyToMany
+            // better practice is to leave this always 'LAZY'
+            // and add an optional query in repo in case we need these data
+            fetch = FetchType.LAZY
+    )
+    private final List<Book> books = new ArrayList<>();
+
     public Student(String firstName, String lastName, int age, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -122,6 +137,25 @@ public class Student {
         this.studentIdCard = studentIdCard;
     }
 
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void addBook(Book book) {
+        if (this.books.contains(book)) {
+            return;
+        }
+        this.books.add(book);
+        book.setStudent(this);
+    }
+
+    public void removeBook(Book book) {
+        if (this.books.contains(book)) {
+            this.books.remove(book);
+            book.setStudent(null);
+        }
+    }
+
     @Override
     public String toString() {
         return "Student{" +
@@ -130,7 +164,6 @@ public class Student {
                 ", lastName='" + lastName + '\'' +
                 ", age=" + age +
                 ", email='" + email + '\'' +
-                ", studentIdCard=" + studentIdCard +
                 '}';
     }
 }

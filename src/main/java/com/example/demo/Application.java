@@ -8,6 +8,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Sort;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 @SpringBootApplication
 public class Application {
 
@@ -39,6 +42,24 @@ public class Application {
                     faker.number().numberBetween(17, 89),
                     name.username() + "@email.com"
             );
+            Book book1 = new Book(
+                    "BookName1",
+                    LocalDateTime.now()
+            );
+
+            Book book2 = new Book(
+                    "BookName2",
+                    LocalDateTime.now()
+            );
+
+            Book book3 = new Book(
+                    "BookName3",
+                    LocalDateTime.now()
+            );
+
+            student.addBook(book1);
+            student.addBook(book2);
+            student.addBook(book3);
 
             StudentIdCard studentIdCard = new StudentIdCard(
                     "123",
@@ -46,18 +67,21 @@ public class Application {
             );
             studentIdCardRepository.save(studentIdCard);
 
-            studentRepository.findById(1L).ifPresent(System.out::println);
+//            System.out.println("fetch book lazy...");
+//            List<Book> books = student.getBooks();
+//            books.forEach(b -> {
+//                System.out.println(student.getFirstName() + " borrowed " + b.getBookName());
+//            });
 
-            studentIdCardRepository.findById(1L).ifPresent(System.out::println);
-
-//            Book book = new Book(
-//                    "BookName",
-//                    LocalDateTime.now(),
-//                    student
-//            );
+            studentRepository.findById(1L).ifPresent(s -> {
+                System.out.println("fetch book lazy...");
+                List<Book> books = student.getBooks();
+                books.forEach(b -> {
+                    System.out.println(s.getFirstName() + " borrowed " + b.getBookName());
+                });
+            });
 //
-//            bookRepository.save(book);
-//            bookRepository.findById(1L).ifPresent(System.out::println);
+//            studentIdCardRepository.findById(1L).ifPresent(System.out::println);
         };
     }
 
