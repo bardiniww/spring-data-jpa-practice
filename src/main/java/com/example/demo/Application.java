@@ -66,6 +66,9 @@ public class Application {
 
             student.setStudentIdCard(studentIdCard);
 
+            student.enrolToCourse(new Course("Data Science", "IT"));
+            student.enrolToCourse(new Course("Java", "IT"));
+
             studentRepository.save(student);
 
             studentRepository.findById(1L).ifPresent(s -> {

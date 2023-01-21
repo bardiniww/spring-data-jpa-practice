@@ -79,7 +79,24 @@ public class Student {
             // and add an optional query in repo in case we need these data
             fetch = FetchType.LAZY
     )
-    private final List<Book> books = new ArrayList<>();
+    private List<Book> books = new ArrayList<>();
+
+    @ManyToMany(
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+            fetch = FetchType.LAZY //default, but to make easier to know property :0
+    )
+    @JoinTable(
+            name = "enrolment",
+            joinColumns = @JoinColumn(
+                    name = "student_id",
+                    foreignKey = @ForeignKey(name = "enrolment_student_id_fkey")
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = "course_id",
+                    foreignKey = @ForeignKey(name = "enrolment_course_id_fkey")
+            )
+    )
+    private List<Course> courses = new ArrayList<>();
 
     public Student(String firstName, String lastName, int age, String email) {
         this.firstName = firstName;
@@ -155,6 +172,24 @@ public class Student {
             this.books.remove(book);
             book.setStudent(null);
         }
+    }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void enrolToCourse(Course course) {
+        if (this.courses.contains(course)) {
+            return;
+        }
+
+        this.courses.add(course);
+        course.getStudents().add(this);
+    }
+
+    public void unEnrolToCourse(Course course) {
+        this.courses.remove(course);
+        course.getStudents().remove(this);
     }
 
     @Override
