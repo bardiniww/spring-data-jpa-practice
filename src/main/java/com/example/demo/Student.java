@@ -71,10 +71,10 @@ public class Student {
     @OneToMany(
             mappedBy = "student",
             orphanRemoval = true,
-            // with these cascade types, when you add or remove a book from the Java object,
+            // with these cascade types, when you add or remove EnrolmentId book from the Java object,
             // it will also be added/removed from 'book' table
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
-            // in case if it contains a lots of data, it should be lazy (as default) for OneToMany & ManyToMany
+            // in case if it contains EnrolmentId lots of data, it should be lazy (as default) for OneToMany & ManyToMany
             // better practice is to leave this always 'LAZY'
             // and add an optional query in repo in case we need these data
             fetch = FetchType.LAZY
