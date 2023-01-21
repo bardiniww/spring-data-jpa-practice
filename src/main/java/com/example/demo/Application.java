@@ -66,8 +66,24 @@ public class Application {
 
             student.setStudentIdCard(studentIdCard);
 
-            student.enrolToCourse(new Course("Data Science", "IT"));
-            student.enrolToCourse(new Course("Java", "IT"));
+            student.addEnrolment(new Enrolment(
+                    //manually only for check zzzz
+                    new EnrolmentId(1L, 1L),
+                    student,
+                    new Course("Data Science", "IT"),
+                    LocalDateTime.now()
+            ));
+
+            student.addEnrolment(new Enrolment(
+                    //manually only for check zzzz
+                    new EnrolmentId(1L, 2L),
+                    student,
+                    new Course("Java", "IT"),
+                    LocalDateTime.now().minusDays(2)
+            ));
+
+//            student.enrolToCourse(new Course("Data Science", "IT"));
+//            student.enrolToCourse(new Course("Java", "IT"));
 
             studentRepository.save(student);
 

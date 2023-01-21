@@ -26,7 +26,7 @@ interface StudentRepository extends JpaRepository<Student, Long> {
             @Param("age") Integer age
     );
 
-    //not recommended to use native, because of in case if database provider changes, EnrolmentId query will not work
+    //not recommended to use native, because of in case if database provider changes, a query will not work
     @Query(
             value = "SELECT * FROM student s " +
                     "WHERE s.firstName = ?1 " +

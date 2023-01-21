@@ -71,32 +71,22 @@ public class Student {
     @OneToMany(
             mappedBy = "student",
             orphanRemoval = true,
-            // with these cascade types, when you add or remove EnrolmentId book from the Java object,
+            // with these cascade types, when you add or remove a book from the Java object,
             // it will also be added/removed from 'book' table
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
-            // in case if it contains EnrolmentId lots of data, it should be lazy (as default) for OneToMany & ManyToMany
+            // in case if it contains a lots of data, it should be lazy (as default) for OneToMany & ManyToMany
             // better practice is to leave this always 'LAZY'
             // and add an optional query in repo in case we need these data
             fetch = FetchType.LAZY
     )
     private List<Book> books = new ArrayList<>();
 
-    @ManyToMany(
+    @OneToMany(
+            mappedBy = "student",
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
             fetch = FetchType.LAZY //default, but to make easier to know property :0
     )
-    @JoinTable(
-            name = "enrolment",
-            joinColumns = @JoinColumn(
-                    name = "student_id",
-                    foreignKey = @ForeignKey(name = "enrolment_student_id_fkey")
-            ),
-            inverseJoinColumns = @JoinColumn(
-                    name = "course_id",
-                    foreignKey = @ForeignKey(name = "enrolment_course_id_fkey")
-            )
-    )
-    private List<Course> courses = new ArrayList<>();
+    private List<Enrolment> enrolments = new ArrayList<>();
 
     public Student(String firstName, String lastName, int age, String email) {
         this.firstName = firstName;
@@ -174,22 +164,19 @@ public class Student {
         }
     }
 
-    public List<Course> getCourses() {
-        return courses;
+    public List<Enrolment> getEnrolments() {
+        return enrolments;
     }
 
-    public void enrolToCourse(Course course) {
-        if (this.courses.contains(course)) {
+    public void addEnrolment(Enrolment enrolment) {
+        if (enrolments.contains(enrolment)) {
             return;
         }
-
-        this.courses.add(course);
-        course.getStudents().add(this);
+        enrolments.add(enrolment);
     }
 
-    public void unEnrolToCourse(Course course) {
-        this.courses.remove(course);
-        course.getStudents().remove(this);
+    public void removeEnrolment(Enrolment enrolment) {
+        enrolments.remove(enrolment);
     }
 
     @Override
