@@ -42,8 +42,12 @@ public class StudentIdCard {
             fetch = FetchType.EAGER
     )
     @JoinColumn(
-          name = "student_id",
-          referencedColumnName = "id"
+            name = "student_id",
+            nullable = false,
+            referencedColumnName = "id",
+            foreignKey = @ForeignKey(
+                    name = "student_id_card_student_id_fkey"
+            )
     )
     private Student student;
 

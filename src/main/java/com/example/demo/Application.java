@@ -6,9 +6,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 @SpringBootApplication
@@ -19,7 +16,11 @@ public class Application {
     }
 
     @Bean
-    CommandLineRunner commandLineRunner(StudentRepository studentRepository, StudentIdCardRepository studentIdCardRepository) {
+    CommandLineRunner commandLineRunner(
+            BookRepository bookRepository,
+            StudentRepository studentRepository,
+            StudentIdCardRepository studentIdCardRepository
+    ) {
         return args -> {
 //            generateRandomStudents(studentRepository);
 //            findAllStudentsWithSort(studentRepository);
@@ -49,6 +50,14 @@ public class Application {
 
             studentIdCardRepository.findById(1L).ifPresent(System.out::println);
 
+//            Book book = new Book(
+//                    "BookName",
+//                    LocalDateTime.now(),
+//                    student
+//            );
+//
+//            bookRepository.save(book);
+//            bookRepository.findById(1L).ifPresent(System.out::println);
         };
     }
 
