@@ -38,15 +38,15 @@ public class Application {
                     faker.number().numberBetween(17, 89),
                     name.username() + "@email.com"
             );
-//            studentRepository.save(
-//                    student
-//            );
 
             StudentIdCard studentIdCard = new StudentIdCard(
                     "123",
                     student
             );
             studentIdCardRepository.save(studentIdCard);
+
+            studentRepository.findById(1L).ifPresent(System.out::println);
+
             studentIdCardRepository.findById(1L).ifPresent(System.out::println);
 
         };

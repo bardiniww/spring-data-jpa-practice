@@ -53,6 +53,12 @@ public class Student {
     )
     private String email;
 
+    //not initialized as table column but has bidirectional bind to the other entity
+    @OneToOne(
+            mappedBy = "student"
+    )
+    private StudentIdCard studentIdCard;
+
     public Student(String firstName, String lastName, int age, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -102,6 +108,14 @@ public class Student {
         this.email = email;
     }
 
+    public StudentIdCard getStudentIdCard() {
+        return studentIdCard;
+    }
+
+    public void setStudentIdCard(StudentIdCard studentIdCard) {
+        this.studentIdCard = studentIdCard;
+    }
+
     @Override
     public String toString() {
         return "Student{" +
@@ -110,6 +124,7 @@ public class Student {
                 ", lastName='" + lastName + '\'' +
                 ", age=" + age +
                 ", email='" + email + '\'' +
+                ", studentIdCard=" + studentIdCard +
                 '}';
     }
 }
