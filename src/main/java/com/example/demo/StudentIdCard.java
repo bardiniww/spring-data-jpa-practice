@@ -36,7 +36,11 @@ public class StudentIdCard {
     )
     private String cardNumber;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    //for OneToOne default FetchType = "EAGER", what means than student entity will be fetched with this object
+    @OneToOne(
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER
+    )
     @JoinColumn(
           name = "student_id",
           referencedColumnName = "id"
@@ -75,11 +79,16 @@ public class StudentIdCard {
         this.student = student;
     }
 
+    public Student getStudent() {
+        return student;
+    }
+
     @Override
     public String toString() {
         return "StudentIdCard{" +
                 "id=" + id +
                 ", cardNumber='" + cardNumber + '\'' +
+                ", student=" + student +
                 '}';
     }
 }
