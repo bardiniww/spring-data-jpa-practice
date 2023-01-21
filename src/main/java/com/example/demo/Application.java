@@ -20,9 +20,7 @@ public class Application {
 
     @Bean
     CommandLineRunner commandLineRunner(
-            BookRepository bookRepository,
-            StudentRepository studentRepository,
-            StudentIdCardRepository studentIdCardRepository
+            StudentRepository studentRepository
     ) {
         return args -> {
 //            generateRandomStudents(studentRepository);
@@ -65,13 +63,10 @@ public class Application {
                     "123",
                     student
             );
-            studentIdCardRepository.save(studentIdCard);
 
-//            System.out.println("fetch book lazy...");
-//            List<Book> books = student.getBooks();
-//            books.forEach(b -> {
-//                System.out.println(student.getFirstName() + " borrowed " + b.getBookName());
-//            });
+            student.setStudentIdCard(studentIdCard);
+
+            studentRepository.save(student);
 
             studentRepository.findById(1L).ifPresent(s -> {
                 System.out.println("fetch book lazy...");
@@ -80,8 +75,6 @@ public class Application {
                     System.out.println(s.getFirstName() + " borrowed " + b.getBookName());
                 });
             });
-//
-//            studentIdCardRepository.findById(1L).ifPresent(System.out::println);
         };
     }
 

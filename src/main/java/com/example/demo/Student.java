@@ -63,7 +63,8 @@ public class Student {
             // because of any studentIdCard entity binds to the student.
             // so we set this property true, to allow deleting binded studentCardId entity before,
             // and then we delete student entity
-            orphanRemoval = true
+            orphanRemoval = true,
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE}
     )
     private StudentIdCard studentIdCard;
 
