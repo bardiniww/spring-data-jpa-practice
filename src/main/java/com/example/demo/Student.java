@@ -53,9 +53,15 @@ public class Student {
     )
     private String email;
 
-    //not initialized as table column but has bidirectional bind to the other entity
+    // not initialized as table column
+    // but has bidirectional bind to the other entity and present in Java class (object)
     @OneToOne(
-            mappedBy = "student"
+            mappedBy = "student",
+            // if property equals false, in case of deleting student entity - will happen nothing
+            // because of any studentIdCard entity binds to the student.
+            // so we set this property true, to allow deleting binded studentCardId entity before,
+            // and then we delete student entity
+            orphanRemoval = true
     )
     private StudentIdCard studentIdCard;
 
